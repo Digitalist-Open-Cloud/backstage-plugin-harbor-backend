@@ -1,10 +1,10 @@
 {
-  "name": "@bestsellerit/backstage-plugin-harbor-backend",
-  "version": "${CIRCLE_TAG}",
+  "name": "@digitalist-open-cloud/backstage-plugin-harbor-backend",
+  "version": "0.4.0",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "license": "Apache-2.0",
-  "repository": "git://github.com/BESTSELLER/backstage-plugin-harbor-backend.git",
+  "repository": "git://github.com/Digitalist-Open-Cloud/backstage-plugin-harbor-backend.git",
   "publishConfig": {
     "access": "public",
     "main": "dist/index.cjs.js",
@@ -24,8 +24,9 @@
     "postpack": "backstage-cli package postpack"
   },
   "dependencies": {
-    "@backstage/backend-common": "^0.15.0",
+    "@backstage/backend-common": "^0.23.3",
     "@backstage/config": "^1.0.0",
+    "@backstage/errors": "^1.2.4",
     "@types/express": "*",
     "express": "^4.18.1",
     "express-promise-router": "^4.1.0",
@@ -36,7 +37,7 @@
     "yn": "^4.0.0"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.18.1",
+    "@backstage/cli": "^0.26.11",
     "@types/jest": "^27.5.0",
     "@types/node-fetch": "^2.6.1",
     "@types/supertest": "^2.0.8",

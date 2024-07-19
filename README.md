@@ -1,7 +1,6 @@
 # Backstage Harbor Backend plugin
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=container-registry_backstage-plugin-harbor-backend&metric=alert_status)](https://sonarcloud.io/dashboard?id=container-registry_backstage-plugin-harbor-backend)
-![npm](https://img.shields.io/npm/dt/@bestsellerit/backstage-plugin-harbor-backend)
+This is a fork.
 
 Welcome to the harbor backend plugin!
 This plugin will show information about your docker images within harbor
@@ -56,15 +55,22 @@ const overviewContent = (
 
 ### Enabling backend
 
+### New backend
+
 ```bash
-cd packages/backend
-yarn add @bestsellerit/backstage-plugin-harbor-backend
+yarn --cwd packages/backend add @digitalist-open-cloud/backstage-plugin-harbor-backend
+```
+
+### Old backend
+
+```bash
+yarn --cwd packages/backend add @digitalist-open-cloud/backstage-plugin-harbor-backend
 ```
 
 Create a new file named `packages/backend/src/plugins/harbor.ts`, and add the following to it
 
 ```ts
-import { createRouter } from '@bestsellerit/backstage-plugin-harbor-backend';
+import { createRouter } from '@digitalist-open-cloud/backstage-plugin-harbor-backend';
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 
@@ -94,13 +100,13 @@ The plugin requires configuration in the Backstage app-config.yaml to connect to
 
 ```yaml
 harbor:
-  # This is the traditional way of configuring the Harbor plugin. 
+  # This is the traditional way of configuring the Harbor plugin.
   baseUrl: https://harbor.yourdomain.com
   username:
     $env: HARBOR_USERNAME
   password:
     $env: HARBOR_PASSWORD
-  
+
   # This is the way to go if you need to connect to multiple Harbor instances. You can also combine those approaches.
   instances:
     - host: harbor.yourdomain.com
@@ -121,13 +127,13 @@ metadata:
   description: "A sample system"
   annotations:
     # This will use harbor.baseUrl
-    goharbor.io/repository-slug: project/repository 
+    goharbor.io/repository-slug: project/repository
     # OR
     # This will use harbor.instances[].baseUrl based on the matching host
-    goharbor.io/repository-slug: harbor.yourdomain.com/project/repository 
+    goharbor.io/repository-slug: harbor.yourdomain.com/project/repository
     # OR
     # This will fetch the first image from harbor.baseUrl and the second image from harbor.instances[].baseUrl
-    goharbor.io/repository-slug: project/repository, harbor.yourdomain.com/project/repository 
+    goharbor.io/repository-slug: project/repository, harbor.yourdomain.com/project/repository
 ```
 
 ## Contributing

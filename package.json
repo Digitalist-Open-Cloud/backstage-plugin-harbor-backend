@@ -1,17 +1,29 @@
 {
   "name": "@digitalist-open-cloud/backstage-plugin-harbor-backend",
-  "version": "0.4.0",
+  "version": "0.4.1-alpha1",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "license": "Apache-2.0",
-  "repository": "git://github.com/Digitalist-Open-Cloud/backstage-plugin-harbor-backend.git",
+  "repository": {
+    "type": "git",
+    "directory": "."
+  },
   "publishConfig": {
     "access": "public",
     "main": "dist/index.cjs.js",
     "types": "dist/index.d.ts"
   },
   "backstage": {
-    "role": "backend-plugin"
+    "role": "backend-plugin",
+    "pluginId": "harbor",
+    "pluginPackages": [
+      "@digitalist-open-cloud/backstage-plugin-harbor",
+      "@digitalist-open-cloud/backstage-plugin-harbor-backend"
+    ]
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
   },
   "configSchema": "config.d.ts",
   "scripts": {
@@ -25,11 +37,12 @@
   },
   "dependencies": {
     "@backstage/backend-common": "^0.23.3",
-    "@backstage/config": "^1.0.0",
+    "@backstage/backend-plugin-api": "^0.7.0",
+    "@backstage/config": "^1.2.0",
     "@backstage/errors": "^1.2.4",
-    "@types/express": "*",
-    "express": "^4.18.1",
-    "express-promise-router": "^4.1.0",
+    "@types/express": "4.17.20",
+    "express": "^4.18.2",
+    "express-promise-router": "^4.1.1",
     "js-base64": "^3.7.2",
     "node-fetch": "^2.6.7",
     "redis": "^4.1.0",
@@ -37,13 +50,13 @@
     "yn": "^4.0.0"
   },
   "devDependencies": {
-    "@backstage/cli": "^0.26.11",
+    "@backstage/cli": "0.21.0",
     "@types/jest": "^27.5.0",
     "@types/node-fetch": "^2.6.1",
     "@types/supertest": "^2.0.8",
-    "msw": "^0.35.0",
+    "msw": "1.3.3",
     "prettier": "^2.4.1",
-    "supertest": "^6.1.6"
+    "supertest": "6.3.3"
   },
   "files": [
     "dist",

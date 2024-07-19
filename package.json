@@ -1,8 +1,9 @@
 {
   "name": "@digitalist-open-cloud/backstage-plugin-harbor-backend",
-  "version": "0.4.1-alpha1",
+  "version": "0.4.1-alpha3",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "private": false,
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -59,7 +60,6 @@
     "supertest": "6.3.3"
   },
   "files": [
-    "dist",
-    "config.d.ts"
+    "dist"
   ]
 }

@@ -1,2 +1,2 @@
-export { createRouter } from './service/router';
-export { harborBackendPlugin } from './plugin';
+export * from './service/router';
+export { harborBackendPlugin as default } from './plugin';

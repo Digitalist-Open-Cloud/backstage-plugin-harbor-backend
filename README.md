@@ -1,57 +1,16 @@
 # Backstage Harbor Backend plugin
 
-This is a fork.
+This plugin will show information about your docker images within Harbor.
 
-Welcome to the harbor backend plugin!
-This plugin will show information about your docker images within harbor
+This is a fork, and no promises for backwards compatibility. But have been tested on Backstage 1.29.x.
 
-![Dashboard](docs/img/dashboard.png)
-![Docker Image](docs/img/widget.png)
+Our goal is to contribute back, after we have done internal testing.
+
+For the original code, please see the [GitHub repo](https://github.com/container-registry/backstage-plugin-harbor-backend)
 
 ## Getting started
 
-### Enabling frontend
-
-```bash
-cd package/app
-yarn add @bestsellerit/backstage-plugin-harbor
-```
-
-```ts
-// packages/app/src/plugins.ts
-export { plugin as harbor } from '@bestsellerit/backstage-plugin-harbor';
-```
-
-```ts
-// packages/app/src/components/catalog/EntityPage.tsx
-import { Router as HarborRouter } from '@bestsellerit/backstage-plugin-harbor';
-
-const serviceEntityPage = (
-  <EntityPageLayout>
-    // ...
-    <EntityLayout.Route path="/harbor" title="Harbor">
-      <EntityHarborContent />
-    </EntityLayout.Route>
-  </EntityPageLayout>
-)
-```
-
-```ts
-// packages/app/src/components/catalog/EntityPage.tsx
-const overviewContent = (
-  <Grid container spacing={6} alignItems="stretch">
-   // ...
-    <EntitySwitch>
-      <EntitySwitch.Case if={isHarborAvailable}>
-        <Grid item>
-         <EntityHarborCard/>
-        </Grid>
-      </EntitySwitch.Case>
-    </EntitySwitch>
-    ...
-  </Grid>
-);
-```
+First [install frontend](https://github.com/Digitalist-Open-Cloud/backstage-plugin-harbor)
 
 ### Enabling backend
 
@@ -61,7 +20,17 @@ const overviewContent = (
 yarn --cwd packages/backend add @digitalist-open-cloud/backstage-plugin-harbor-backend
 ```
 
+Add to `packages/backend/src/index.ts`:
+
+```ts
+backend.add(import('@digitalist-open-cloud/backstage-plugin-harbor-backend'));
+```
+
+Now, jump to configuration step.
+
 ### Old backend
+
+Please note, this could be broken as it not tested with this fork.
 
 ```bash
 yarn --cwd packages/backend add @digitalist-open-cloud/backstage-plugin-harbor-backend
@@ -96,25 +65,21 @@ async function main() {
 
 ## Configuration
 
-The plugin requires configuration in the Backstage app-config.yaml to connect to harbors API.
+The plugin requires configuration in the Backstage app-config.yaml to connect to Harbor API.
 
 ```yaml
 harbor:
   # This is the traditional way of configuring the Harbor plugin.
   baseUrl: https://harbor.yourdomain.com
-  username:
-    $env: HARBOR_USERNAME
-  password:
-    $env: HARBOR_PASSWORD
+  username: ${HARBOR_USERNAME}
+  password: ${HARBOR_PASSWORD}
 
   # This is the way to go if you need to connect to multiple Harbor instances. You can also combine those approaches.
   instances:
-    - host: harbor.yourdomain.com
-      baseUrl: https://harbor.yourdomain.com
-      username:
-        $env: HARBOR_USERNAME
-      password:
-        $env: HARBOR_PASSWORD
+    - host: harbor2.yourdomain.com
+      baseUrl: https://harbor2.yourdomain.com
+      username: ${HARBOR_USERNAME}
+      password: ${HARBOR_PASSWORD}
 ```
 
 Adding annotations and values to your component file.
@@ -138,11 +103,8 @@ metadata:
 
 ## Contributing
 
-Everyone is welcome to contribute to this repository. Feel free to raise [issues](https://github.com/container-registry/backstage-plugin-harbor-backend/issues) or to submit [Pull Requests.](https://github.com/container-registry/backstage-plugin-harbor-backend/pulls)
-
-To test the plugin locally set environment variables APP_CONFIG_harbor_baseUrl, APP_CONFIG_harbor_username and APP_CONFIG_harbor_password. Run "yarn start" and access the endpoint at http://localhost:7007/artifacts?project={your-project-name}&repository={your-repo-name}
-
+Please contribute back to the [original repo](https://github.com/container-registry/), and you are free to use any code from this repo to contribute back to the original repo without giving us credit.
 
 ## History
 
-This Backstage plugin was initially created by [BESTSELLER](https://github.com/BESTSELLER) and transferred to us.
+This Backstage plugin was initially created by [BESTSELLER](https://github.com/BESTSELLER) and transferred to [Container Registry](https://github.com/container-registry/). This fork was started because of an acute need.

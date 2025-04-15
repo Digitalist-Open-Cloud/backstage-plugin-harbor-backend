@@ -1,0 +1,14 @@
+name: 'Check spelling'
+on:
+  pull_request:
+  push:
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: streetsidesoftware/cspell-action@v6
+        with:
+          files: src/**/*.{ts,js,tsx}
+          incremental_files_only: false

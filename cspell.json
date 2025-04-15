@@ -1,0 +1,24 @@
+{
+  "version": "0.2",
+  "ignorePaths": [
+      "**/images/**"
+  ],
+  "dictionaryDefinitions": [
+      {
+          "name": "dictionary",
+          "path": "./.cspell/dictionary",
+          "addWords": true
+      }
+  ],
+  "dictionaries": [
+      "dictionary",
+      "html",
+      "typescript",
+      "javascript"
+    ],
+  "words": [],
+  "ignoreWords": [],
+  "import": [],
+  "language": "en,en-GB",
+  "useGitignore": true
+}

@@ -2282,7 +2282,7 @@
     "@backstage/plugin-permission-common" "^0.8.4"
     "@backstage/plugin-search-common" "^1.2.17"
 
-"@backstage/plugin-catalog-node@^1.16.1":
+"@backstage/plugin-catalog-node@^1.16.2":
   version "1.16.2"
   resolved "https://registry.yarnpkg.com/@backstage/plugin-catalog-node/-/plugin-catalog-node-1.16.2.tgz#4f0a05460e91dd99530ac62ac34f2b7b6b1e8a1b"
   integrity sha512-U7x9NNE2UGSRYe/EKVFwjGMpxN8CWs/Ki5gCXDjC5Z1FNOnKf5qqZOy60yS/nxoMeECaTgWUUaGcIDweEo+avg==

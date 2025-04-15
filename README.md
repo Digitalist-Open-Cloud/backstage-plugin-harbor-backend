@@ -21,7 +21,7 @@ yarn --cwd packages/backend add @digitalist-open-cloud/backstage-plugin-harbor-b
 Add to `packages/backend/src/index.ts`:
 
 ```ts
-backend.add(import('@digitalist-open-cloud/backstage-plugin-harbor-backend'));
+backend.add(import('@digitalist-open-cloud/backstage-plugin-harbor-backend'))
 ```
 
 Now, jump to configuration step.

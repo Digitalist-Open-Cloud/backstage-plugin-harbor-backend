@@ -1,1 +1,1 @@
-export { harborBackendPlugin as default } from './plugin';
+export { harborBackendPlugin as default } from './plugin'

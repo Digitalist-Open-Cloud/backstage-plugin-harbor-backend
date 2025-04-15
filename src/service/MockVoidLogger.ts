@@ -1,4 +1,4 @@
-import { LoggerService } from '@backstage/backend-plugin-api';
+import { LoggerService } from '@backstage/backend-plugin-api'
 
 export const mockVoidLogger: LoggerService = {
   error: () => {},
@@ -6,4 +6,4 @@ export const mockVoidLogger: LoggerService = {
   info: () => {},
   debug: () => {},
   child: () => mockVoidLogger,
-};
+}

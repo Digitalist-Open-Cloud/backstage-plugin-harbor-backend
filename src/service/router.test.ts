@@ -2,7 +2,7 @@ import { ConfigReader } from '@backstage/config'
 import express from 'express'
 import request from 'supertest'
 import { createRouter } from './router'
-import { mockVoidLogger } from './MockVoidLogger';
+import { mockVoidLogger } from './MockVoidLogger'
 
 describe('createRouter', () => {
   let app: express.Express

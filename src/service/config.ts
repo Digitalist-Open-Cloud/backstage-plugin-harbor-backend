@@ -34,8 +34,10 @@ export const getHarborInstances = (config: Config): HarborInstance[] => {
   return instances
 }
 
-export const getCurrentHarborInstance = (harborInstances: HarborInstance[], host: string) : HarborInstance => {
-
+export const getCurrentHarborInstance = (
+  harborInstances: HarborInstance[],
+  host: string
+): HarborInstance => {
   const currentInstance = harborInstances.find((i) => i.host === host)
   if (!currentInstance) {
     if (host) {

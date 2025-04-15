@@ -1,6 +1,10 @@
 import { ConfigReader } from '@backstage/config'
 import { NotFoundError } from '@backstage/errors'
-import { getCurrentHarborInstance, getHarborInstances, HarborInstance } from './config'
+import {
+  getCurrentHarborInstance,
+  getHarborInstances,
+  HarborInstance,
+} from './config'
 
 describe('config', () => {
   describe('getHarborInstances', () => {
@@ -126,12 +130,11 @@ describe('config', () => {
       ]
       const currentHarborInstance = getCurrentHarborInstance(instances, '')
       expect(currentHarborInstance).toEqual({
-          host: '',
-          apiBaseUrl: 'https://harbor.dev',
-          username: 'jane.doe',
-          password: 'this-is-super-secure',
-        } as HarborInstance
-      )
+        host: '',
+        apiBaseUrl: 'https://harbor.dev',
+        username: 'jane.doe',
+        password: 'this-is-super-secure',
+      } as HarborInstance)
     })
     it('returns correct instance if multiple instance are defined', () => {
       const instances = [
@@ -148,18 +151,24 @@ describe('config', () => {
           password: 'this-is-even-more-secure',
         } as HarborInstance,
       ]
-      const currentHarborInstance = getCurrentHarborInstance(instances, 'harbor.dev')
-      expect(currentHarborInstance).toEqual({
-          host: 'harbor.dev',
-          apiBaseUrl: 'https://harbor.dev',
-          username: 'jane.doe',
-          password: 'this-is-super-secure',
-        } as HarborInstance
+      const currentHarborInstance = getCurrentHarborInstance(
+        instances,
+        'harbor.dev'
       )
+      expect(currentHarborInstance).toEqual({
+        host: 'harbor.dev',
+        apiBaseUrl: 'https://harbor.dev',
+        username: 'jane.doe',
+        password: 'this-is-super-secure',
+      } as HarborInstance)
     })
     it('throws an error if there is no default harbor instance defined', () => {
       const instances: HarborInstance[] = []
-      expect(() => getCurrentHarborInstance(instances, '')).toThrow(new NotFoundError("No default Harbor configuration found. Please configure it in your app configuration."));
+      expect(() => getCurrentHarborInstance(instances, '')).toThrow(
+        new NotFoundError(
+          'No default Harbor configuration found. Please configure it in your app configuration.'
+        )
+      )
     })
     it('throws an error if there are no harbor instances defined for host', () => {
       const instances = [
@@ -170,7 +179,13 @@ describe('config', () => {
           password: 'this-is-super-secure',
         } as HarborInstance,
       ]
-      expect(() => getCurrentHarborInstance(instances, 'another-harbor.dev')).toThrow(new NotFoundError("No Harbor instance for host 'another-harbor.dev' found. Please configure it in your app configuration."));
+      expect(() =>
+        getCurrentHarborInstance(instances, 'another-harbor.dev')
+      ).toThrow(
+        new NotFoundError(
+          "No Harbor instance for host 'another-harbor.dev' found. Please configure it in your app configuration."
+        )
+      )
     })
   })
 })

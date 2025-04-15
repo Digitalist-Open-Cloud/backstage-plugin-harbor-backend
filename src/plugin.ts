@@ -14,15 +14,21 @@ export const harborBackendPlugin = createBackendPlugin({
   register(env) {
     env.registerInit({
       deps: {
-        http: coreServices.httpRouter,
+        httpRouter: coreServices.httpRouter,
         logger: coreServices.logger,
         config: coreServices.rootConfig,
+        auth: coreServices.auth,
+        httpAuth: coreServices.httpAuth,
       },
-      async init({ http, logger, config }) {
+      async init({ httpRouter, logger, config, auth, httpAuth }) {
         logger.info('Harbor backend plugin is running');
-        http.use(
-          await createRouter({ config, logger }),
-        );
+        const router = await createRouter({ config, logger, auth, httpAuth });
+        httpRouter.use(router);
+        httpRouter.addAuthPolicy({
+          path: '/health',
+          allow: 'unauthenticated',
+        });
+
       },
     });
   },

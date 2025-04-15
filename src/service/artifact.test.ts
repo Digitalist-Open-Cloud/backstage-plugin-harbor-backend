@@ -1,45 +1,82 @@
-import { ConfigReader } from '@backstage/config'
-import express from 'express'
-import request from 'supertest'
-import { createRouter } from './router'
+import { ConfigReader } from '@backstage/config';
+import express from 'express';
+import request from 'supertest';
+import { createRouter } from './router';
 import { mockVoidLogger } from './MockVoidLogger';
 
+jest.mock('./artifact', () => ({
+  getArtifacts: jest.fn().mockResolvedValue([
+    {
+      size: '567',
+      tag: 'test-tag',
+      pullTime: '2023-10-01T00:00:00Z',
+      pushTime: '2023-10-01T00:00:00Z',
+      projectID: 'proj123',
+      repoUrl: 'http://foo.bar',
+      vulnerabilities: [],
+    },
+  ]),
+}));
+
+jest.mock('./config', () => ({
+  getHarborInstances: jest.requireActual('./config').getHarborInstances,
+}));
+
 describe('createRouter', () => {
-  let app: express.Express
+  let app: express.Express;
 
   beforeAll(async () => {
+    const mockAuth = {
+      getPluginRequestToken: jest.fn(),
+      getLimitedUserToken: jest.fn(),
+      authenticate: jest.fn(),
+    };
+
+    const mockHttpAuth = {
+      credentials: jest.fn().mockReturnValue((_req, _res, next) => next()),
+    };
+
     const router = await createRouter({
       logger: mockVoidLogger,
       config: new ConfigReader({
         harbor: {
-          baseUrl: process.env.APP_CONFIG_harbor_baseUrl,
-          username: process.env.APP_CONFIG_harbor_username,
-          password: process.env.APP_CONFIG_harbor_password,
+          instances: [ // 👈 ✅ explicit correct structure!
+            {
+              name: 'default',
+              baseUrl: 'http://my-testing-harbor.local',
+              host: 'https://my-test-harbor.example.com',
+              username: 'testuser',
+              password: 'testpass'
+            }
+          ]
         },
       }),
-    })
-    app = express().use(router)
-  })
+      auth: mockAuth,
+      httpAuth: mockHttpAuth,
+    });
 
-  describe('GET /artifacts', () => {
-    it('return repository info', async () => {
-      const projectID = process.env.HARBOR_project
-      const repositoryID = process.env.HARBOR_repository
+    app = express().use(router);
+  });
 
-      const response = await request(app)
-        .get('/artifacts')
-        .query({ project: projectID, repository: repositoryID })
+  it('returns artifact info successfully', async () => {
+    const response = await request(app)
+      .get('/artifacts')
+      .query({ project: 'test', repository: 'testrepo' });
 
-      expect(response.statusCode).toEqual(200)
-      expect(Array.isArray(response.body)).toBeTruthy()
+    // extra debug log, if it still somehow fails explicitly
+    if (response.statusCode !== 200) {
+      console.error('Explicitly Error:', response.body);
+    }
 
-      expect(response.body[0]).toHaveProperty('size')
-      expect(response.body[0]).toHaveProperty('tag')
-      expect(response.body[0]).toHaveProperty('pullTime')
-      expect(response.body[0]).toHaveProperty('pushTime')
-      expect(response.body[0]).toHaveProperty('projectID')
-      expect(response.body[0]).toHaveProperty('repoUrl')
-      expect(response.body[0]).toHaveProperty('vulnerabilities')
-    })
-  })
-})
+    expect(response.statusCode).toEqual(200);
+    expect(Array.isArray(response.body)).toBeTruthy();
+
+    const art = response.body[0];
+    expect(art).toHaveProperty('size', '567');
+    expect(art).toHaveProperty('tag', 'test-tag');
+    expect(art).toHaveProperty('pullTime', '2023-10-01T00:00:00Z');
+    expect(art).toHaveProperty('pushTime', '2023-10-01T00:00:00Z');
+    expect(art).toHaveProperty('projectID', 'proj123');
+    expect(art).toHaveProperty('repoUrl', 'http://foo.bar');
+  });
+});

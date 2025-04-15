@@ -25,19 +25,24 @@ export async function createRouter(
   router.use(express.json())
 
   router.get('/artifacts', async (request, response) => {
-    const host: string = request.query.host as string ?? ''
-    const project: string = request.query.project as string
-    const repository: string = request.query.repository as string
+    try {
+      const host: string = request.query.host as string ?? ''
+      const project: string = request.query.project as string
+      const repository: string = request.query.repository as string
 
-    const artifacts = await getArtifacts(
-      harborInstances,
-      decodeURIComponent(host),
-      project,
-      decodeURIComponent(repository)
-    )
+      const artifacts = await getArtifacts(
+        harborInstances,
+        decodeURIComponent(host),
+        project,
+        decodeURIComponent(repository)
+      );
 
-    response.send(artifacts)
-  })
+      response.send(artifacts);
+    } catch (error) {
+      console.error('Error in /artifacts handler:', error);
+      response.status(500).json({ error: (error as Error).message });
+    }
+  });
 
   router.post('/teamartifacts', async (request, response) => {
     const team: any = request.query.team

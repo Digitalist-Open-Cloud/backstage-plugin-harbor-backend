@@ -1,6 +1,6 @@
 {
   "name": "@digitalist-open-cloud/backstage-plugin-harbor-backend",
-  "version": "0.6.1",
+  "version": "0.6.2-alpha1",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "private": false,

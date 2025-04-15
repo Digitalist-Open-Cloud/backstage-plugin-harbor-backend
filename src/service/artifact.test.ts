@@ -3,6 +3,7 @@ import express from 'express';
 import request from 'supertest';
 import { createRouter } from './router';
 import { mockVoidLogger } from './MockVoidLogger';
+import { Request, Response, NextFunction } from 'express';
 
 jest.mock('./artifact', () => ({
   getArtifacts: jest.fn().mockResolvedValue([

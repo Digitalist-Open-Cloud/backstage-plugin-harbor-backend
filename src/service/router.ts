@@ -1,15 +1,16 @@
 import express from 'express';
 import { Config } from '@backstage/config'
 import Router from 'express-promise-router'
-import { LoggerService } from '@backstage/backend-plugin-api';
+import { LoggerService, AuthService, HttpAuthService } from '@backstage/backend-plugin-api';
 import { getArtifacts } from './artifact'
 import { repoSearch } from './search'
-import { getTeamArtifacts } from './teamArtifacts'
 import { getHarborInstances } from './config'
 
 export interface RouterOptions {
   logger: LoggerService
   config: Config
+  auth: AuthService;
+  httpAuth: HttpAuthService;
 }
 
 export async function createRouter(
@@ -43,19 +44,6 @@ export async function createRouter(
       response.status(500).json({ error: (error as Error).message });
     }
   });
-
-  router.post('/teamartifacts', async (request, response) => {
-    const team: any = request.query.team
-    const componentType: any = request.query.type
-    const artifacts = await getTeamArtifacts(
-      request.body,
-      team,
-      componentType,
-      redisConfig
-    )
-
-    response.send(artifacts)
-  })
 
   router.post('/search', async (request, response) => {
     const host: string = request.query.host as string ?? ''

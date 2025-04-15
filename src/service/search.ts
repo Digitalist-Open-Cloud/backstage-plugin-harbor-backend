@@ -14,7 +14,7 @@ export async function repoSearch(
   const currentHarborInstance = getCurrentHarborInstance(harborInstances, host)
   const baseUrl = currentHarborInstance.apiBaseUrl
   const { username, password } = currentHarborInstance
-  const repos: Repositories[] = JSON.parse(JSON.stringify(body))
+  const repos: Repositories[] = (typeof body === 'string') ? JSON.parse(body) : body;
   let client = redis.createClient({})
   if (redisConfig !== undefined) {
     const redisHost = redisConfig.getString('host')
@@ -30,7 +30,7 @@ export async function repoSearch(
   const HarborRepos = await client.get(team)
 
   if (HarborRepos !== null && JSON.parse(HarborRepos).length >= 1) {
-    return HarborRepos
+    return JSON.parse(HarborRepos);
   }
   const Repos = await findRepos(baseUrl, username, password, repos)
 

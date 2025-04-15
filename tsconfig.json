@@ -3,7 +3,10 @@
   "include": ["src", "dev"],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "outDir": "dist-types/src",
-    "incremental": false
+    "outDir": "dist",
+    "incremental": false,
+    "declaration": true,
+    "declarationDir": "dist-types",
+    "sourceMap": true
   }
 }

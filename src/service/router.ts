@@ -1,15 +1,14 @@
-import { errorHandler } from '@backstage/backend-common'
-import { Config } from '@backstage/config'
 import express from 'express';
+import { Config } from '@backstage/config'
 import Router from 'express-promise-router'
-import { Logger } from 'winston'
+import { LoggerService } from '@backstage/backend-plugin-api';
 import { getArtifacts } from './artifact'
 import { repoSearch } from './search'
 import { getTeamArtifacts } from './teamArtifacts'
 import { getHarborInstances } from './config'
 
 export interface RouterOptions {
-  logger: Logger
+  logger: LoggerService
   config: Config
 }
 
@@ -70,6 +69,5 @@ export async function createRouter(
   router.get('/health', (_, response) => {
     response.send({ status: 'ok' })
   })
-  router.use(errorHandler())
   return router
 }

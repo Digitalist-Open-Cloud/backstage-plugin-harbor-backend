@@ -1,9 +1,7 @@
-import { getRootLogger } from '@backstage/backend-common'
 import { Config } from '@backstage/config'
 import fetch from 'node-fetch'
 import * as redis from 'redis'
 
-const logger = getRootLogger()
 
 export async function getTeamArtifacts(
   body: string,
@@ -58,7 +56,6 @@ async function teamArtifacts(RepoInformation: RepoInformation[]) {
         errorMsg: 'Repository not found',
       }
       errorMsgs.push(errorMsg)
-      logger.warn(JSON.stringify(errorMsg))
       return
     }
 
@@ -69,7 +66,6 @@ async function teamArtifacts(RepoInformation: RepoInformation[]) {
         errorMsg: json.error.message,
       }
       errorMsgs.push(errorMsg)
-      logger.error(JSON.stringify(errorMsg))
       return
     }
 

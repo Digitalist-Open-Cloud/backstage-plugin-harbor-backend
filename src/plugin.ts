@@ -1,4 +1,3 @@
-import { loggerToWinstonLogger } from '@backstage/backend-common';
 import {
   coreServices,
   createBackendPlugin,
@@ -10,7 +9,6 @@ import { createRouter } from './service/router';
  *
  * @public
  */
-
 export const harborBackendPlugin = createBackendPlugin({
   pluginId: 'harbor',
   register(env) {
@@ -23,7 +21,7 @@ export const harborBackendPlugin = createBackendPlugin({
       async init({ http, logger, config }) {
         logger.info('Harbor backend plugin is running');
         http.use(
-          await createRouter({ config, logger: loggerToWinstonLogger(logger) }),
+          await createRouter({ config, logger }),
         );
       },
     });

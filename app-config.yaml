@@ -1,0 +1,13 @@
+# app-config.yaml (minimal for local development)
+backend:
+  baseUrl: http://localhost:7007
+  listen:
+    host: 0.0.0.0
+    port: 7007
+    cors:
+      origin: '*'
+
+harbor:
+  baseUrl: https://your.harbor.instance.com
+  username: your-username
+  password: your-password

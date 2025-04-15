@@ -1,15 +1,15 @@
-import { getVoidLogger } from '@backstage/backend-common'
 import { ConfigReader } from '@backstage/config'
 import express from 'express'
 import request from 'supertest'
 import { createRouter } from './router'
+import { mockVoidLogger } from './MockVoidLogger';
 
 describe('createRouter', () => {
   let app: express.Express
 
   beforeAll(async () => {
     const router = await createRouter({
-      logger: getVoidLogger(),
+      logger: mockVoidLogger,
       config: new ConfigReader({
         harbor: {
           baseUrl: process.env.APP_CONFIG_harbor_baseUrl,
